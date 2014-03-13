@@ -2,7 +2,7 @@
 Snowball, inspired by [Snowflake](https://github.com/twitter/snowflake), is a Java library that generates unique ID numbers at high scale.
 
 # Why Snowball over Snowflake?
-Snowball is primarily a port of Snowflake's IdWorker Scala code to Java.  As such, Snowball satisfies most of the requirements laid out by Snowflake:
+Snowball is primarily a port of Snowflake's IdWorker Scala code to Java.  As such, Snowball satisfies the same requirements laid out by Snowflake:
 
 * Performance: Minimum 10,000 ids per second per process
 * Uncoordinated: Nodes generating ids are not coordinating with other nodes.
@@ -20,7 +20,7 @@ Snowball's generated ids are slightly different.  Snowball ids are comprised of 
 
 The main difference is the thread identifier portion of the Snowball ids.  The actual implementation is basically taking Snowflakes's sequence number portion and splitting it in two portions.  The two portions being Snowball's thread identifier and thread sequence number.
 
-With this change, Snowball can generate unique ids at a rate of over 100,000 per second per node.
+With this change, Snowball can generate unique ids at a faster rate than Snowflake, over 100,000 per second per node.  The cost for this change is a smaller number of nodes.  Snowflake supports 1,024 nodes where as Snowball only supports 256 nodes.
 
 # Why Snowflake over Snowball?
 Snowflake provides some things that are not available in Snowball:
