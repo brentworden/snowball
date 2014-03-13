@@ -20,13 +20,24 @@ Snowball's generated ids are slightly different.  Snowball ids are comprised of 
 
 The main difference is the thread identifier portion of the Snowball ids.  The actual implementation is basically taking Snowflakes's sequence number portion and splitting it in two portions.  The two portions being Snowball's thread identifier and thread sequence number.
 
-With this change, Snowball can generate unique ids at a rate of over 100,000 per second
+With this change, Snowball can generate unique ids at a rate of over 100,000 per second per node.
 
 # Why Snowflake over Snowball?
 Snowflake provides some things that are not available in Snowball:
 
-* Snowflake can use Apache Zookeeper to generate unique node identifiers.  Such identifiers must be manually choosen and configured in Snowball.
+* Snowflake can use Apache Zookeeper to generate unique node identifiers.  Such identifiers must be manually chosen and configured in Snowball.
 * Snowflake has a server component so id generation can be deployed in a centralized fashion but be available to a larger number of processes that need unique ids.  Snowball has no server component.
+
+# How to Use Snowball
+
+Using Snowball is quite simple.  First, create an `IdGenerator` instance using a unique node identifier.  Then, call the `nextId` method as many times as needed to generated unique ids.  It is as simple as that.
+
+    // generate 100 ids
+    long[] ids = new long[100];
+    snowball.IdGenerator generator = new IdGenerator(someUniqueNodeId);
+    for (int i = 0; i < ids.length; ++i) {
+        ids[i] = generator.nextId();
+    }
 
 
 
